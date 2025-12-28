@@ -2,7 +2,7 @@ name: netology test site
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
     tags: [ 'v*.*.*' ]
 #  pull_request:
 #    branches: [ "master" ]
