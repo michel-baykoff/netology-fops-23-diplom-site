@@ -51,7 +51,7 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
       
-      - name: Deploy to Kubernetes (tag)
+      - name: Deploy to Kubernetes (only for tag)
         if: ${{ github.ref_type == 'tag' }}
         run: |
           sed -i '/image: sk3pt1k\/netology-diplom-repository/s|:v[0-9]\+\.[0-9]\+\.[0-9]\+|:${{ github.ref_name }}|'
