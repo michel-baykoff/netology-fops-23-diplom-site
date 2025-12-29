@@ -50,5 +50,5 @@ jobs:
       - name: Deploy to Kubernetes (tag)
         if: ${{ github.ref_type == 'tag' }}
         run: |
-          kubectl apply -f k8s/
-          kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }}
+          kubectl apply -f k8s/ -n -n netology-fops-23-diplom-namespace
+          kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }} -n -n netology-fops-23-diplom-namespace
