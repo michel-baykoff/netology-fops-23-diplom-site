@@ -20,7 +20,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
+      - name: Build and push (branch)
+        if: ${{ github.ref_type != 'tag' }}
         uses: docker/build-push-action@v6
         with:
           context: .                    
@@ -28,15 +29,26 @@ jobs:
           push: true                    
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:latest
+      
+      - name: Build and push (tag)
+        if: ${{ github.ref_type == 'tag' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .                    
+          file: ./Dockerfile            
+          push: true                    
+          tags: |
             ${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }}
 
-      - name: Configure Kubernetes
+      - name: Configure Kubernetes (only for tag)
+        if: ${{ github.ref_type == 'tag' }}
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
       
       - name: Deploy to Kubernetes
+        if: ${{ github.ref_type == 'tag' }}
         run: |
           kubectl apply -f k8s/
           kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }}
