@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: netology-fops-23-diplom-service
-  namespace: netology-fops-23-diplom-namespace
+  name: netology-diplom-service
+  namespace: netology-diplom-namespace
 spec:
   type: NodePort
   selector:

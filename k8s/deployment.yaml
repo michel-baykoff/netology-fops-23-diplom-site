@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: diplom-webapp
-  namespace: netology-fops-23-diplom-namespace
+  namespace: netology-diplom-namespace
   labels:
     app: web-app
 spec:
@@ -20,7 +20,7 @@ spec:
         image: sk3pt1k/netology-diplom-repository:v0.0.1
         resources:
           requests:
-            cpu: "1"
+            cpu: "0.1"
             memory: "200Mi"
           limits:
             cpu: "1"
