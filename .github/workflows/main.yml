@@ -52,3 +52,4 @@ jobs:
         run: |
           kubectl apply -f k8s/ -n netology-fops-23-diplom-namespace
           kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }} -n netology-fops-23-diplom-namespace
+          kubectl rollout restart deployment/diplom-webapp -n netology-fops-23-diplom-namespace
