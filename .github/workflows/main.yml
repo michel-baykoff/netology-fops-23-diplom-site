@@ -54,7 +54,7 @@ jobs:
       - name: Deploy to Kubernetes (only for tag)
         if: ${{ github.ref_type == 'tag' }}
         run: |
-          sed -i '/image: sk3pt1k\/netology-diplom-repository/s|:v[0-9]\+\.[0-9]\+\.[0-9]\+|:${{ github.ref_name }}|'
+          sed -i '/image: sk3pt1k\/netology-diplom-repository/s|:v[0-9]\+\.[0-9]\+\.[0-9]\+|:${{ github.ref_name }}|' ./k8s/deployment.yaml
           kubectl apply -f k8s/ -n netology-diplom-namespace
           # kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }} -n netology-diplom-namespace
           kubectl rollout restart deployment/diplom-webapp -n netology-diplom-namespace
