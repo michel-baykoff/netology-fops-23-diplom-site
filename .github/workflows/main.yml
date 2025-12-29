@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
     tags: [ 'v*.*.*' ]
+    paths:
+      - 'k8s/**'
+      - 'src/**'
+      - 'Dockerfile'
 #  pull_request:
 #    branches: [ "master" ]
 jobs:
@@ -50,6 +54,7 @@ jobs:
       - name: Deploy to Kubernetes (tag)
         if: ${{ github.ref_type == 'tag' }}
         run: |
-          kubectl apply -f k8s/ -n netology-fops-23-diplom-namespace
-          kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }} -n netology-fops-23-diplom-namespace
-          kubectl rollout restart deployment/diplom-webapp -n netology-fops-23-diplom-namespace
+          sed -i '/image: sk3pt1k\/netology-diplom-repository/s|:v[0-9]\+\.[0-9]\+\.[0-9]\+|:${{ github.ref_name }}|'
+          kubectl apply -f k8s/ -n netology-diplom-namespace
+          # kubectl set image deployment/diplom-webapp diplom-test-site=${{ secrets.DOCKER_USERNAME }}/netology-diplom-repository:${{ github.ref_name }} -n netology-diplom-namespace
+          kubectl rollout restart deployment/diplom-webapp -n netology-diplom-namespace
